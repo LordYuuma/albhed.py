@@ -22,14 +22,29 @@ class AlBhedParser(ArgumentParser):
         self.add_argument("file", nargs=REMAINDER)
 
 class AlBhedTrans(object):
-    spiran = ["e", "p", "s", "t", "i", "w", "k", "n", "u", "v", "g", "c", "l",
-              "r", "y", "b", "x", "h", "m", "d", "o", "f", "z", "q", "a", "j"]
-    al_bhed = ["y", "p", "l", "t", "a", "v", "k", "r", "e", "z", "g", "m", "s",
-               "h", "u", "b", "x", "n", "c", "d", "i", "j", "f", "q", "o", "w"]
 
-    def __init__(self, begin=[], end=[]):
+    def __init__(self, begin="\"[", end="\"]", rm = "[]"):
         self.begin = begin
         self.end = end
+
+        spirans = ["e", "p", "s", "t", "i", "w", "k", "n", "u", "v", "g", "c", "l",
+                   "r", "y", "b", "x", "h", "m", "d", "o", "f", "z", "q", "a", "j"]
+
+        spirans += [s.upper() for s in spirans]
+
+        al_bheds = ["y", "p", "l", "t", "a", "v", "k", "r", "e", "z", "g", "m", "s",
+                    "h", "u", "b", "x", "n", "c", "d", "i", "j", "f", "q", "o", "w"]
+
+        al_bheds += [a.upper() for a in al_bheds]
+
+        spiran = {ascii_letters[i]: spirans[i] for i in range(len(ascii_letters))}
+        al_bhed = {ascii_letters[i]: al_bheds[i] for i in range(len(ascii_letters))}
+
+        spiran.update({s: None for s in rm})
+        al_bhed.update({s: None for s in rm})
+
+        self.spiran = str.maketrans(spiran)
+        self.al_bhed = str.maketrans(al_bhed)
 
         self.skip = False
 
@@ -37,43 +52,35 @@ class AlBhedTrans(object):
         ret = ""
         tl = ""
         ntl = ""
+        spos = 0
         for i in range(len(text)):
             if not self.skip:
-                if text in self.begin:
-                    ret += _translate(tl, dct)
+                pos = self.begin.find(text[i])
+                if pos >= 0:
+                    spos = pos
+                    tl += text[i]
+                    ret += tl.translate(dct)
                     tl = ""
                     self.skip = True
                 else:
                     tl += text[i]
             else:
-                if text in self.end:
+                pos = self.end.find(text[i])
+                if pos == spos:
                     ret += ntl
+                    tl += text[i]
                     ntl = ""
                     self.skip = False
                 else:
                     ntl += text[i]
 
-        ret += ntl if self.skip else self._translate(tl, dct)
-        return ret
-
-
-    def _translate(self, text, dct):
-        ret = ""
-        for i in range(len(text)):
-            char = text[i]
-            if char not in ascii_letters:
-                ret += char
-            elif char in ascii_lowercase:
-                ret += dct[ord(char)-ord("a")]
-            else:
-                ret += chr(ord("A") + ord(dct[ord(char)-ord("A")]) - ord("a"))
+        ret += ntl if self.skip else tl.translate(dct)
         return ret
 
     toAlBhed = lambda self, text: self.translate(text, self.al_bhed)
     toSpiran = lambda self, text: self.translate(text, self.spiran)
 
-
-AlBhed = AlBhedTrans(["\"", "["], ["]", "\""])
+AlBhed = AlBhedTrans()
 args = AlBhedParser().parse_args()
 
 dct = AlBhed.al_bhed if args.lang == "al_bhed" else AlBhed.spiran
