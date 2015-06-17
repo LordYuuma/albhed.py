@@ -42,8 +42,9 @@ class AlBhedTrans(object):
         if not just_canon:
             al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
                             "ß": "ç", "ç": "ß"})
-        
+
         al_bhed.update({a.upper(): al_bhed[a].upper() for a in al_bhed.keys()})
+        al_bhed = {a: al_bhed[a] for a in al_bhed.keys() if len(a) == 1 and len(al_bhed[a]) == 1}
 
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
 
