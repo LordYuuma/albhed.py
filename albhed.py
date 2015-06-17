@@ -44,6 +44,9 @@ class AlBhedTrans(object):
         spiran = {ascii_letters[i]: spirans[i] for i in range(len(ascii_letters))}
         al_bhed = {ascii_letters[i]: al_bheds[i] for i in range(len(ascii_letters))}
 
+        if(any([letter in begin or letter in end or letter in rm for letter in ascii_letters])):
+            raise ValueError("Cannot remove letters from input alphabet!")
+
         spiran.update({s: None for s in rm})
         al_bhed.update({s: None for s in rm})
 
