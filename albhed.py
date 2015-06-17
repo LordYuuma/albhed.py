@@ -56,36 +56,38 @@ class AlBhedTrans(object):
 
         self.spiran = str.maketrans(spiran)
         self.al_bhed = str.maketrans(al_bhed)
+        self.remove = str.maketrans({s: None for s in rm})
 
-        self.skip = False
+        self.markers = []
 
     def translate(self, text, dct):
         ret = ""
         tl = ""
         ntl = ""
-        spos = 0
         for i in range(len(text)):
-            if not self.skip:
-                pos = self.begin.find(text[i])
-                if pos >= 0:
-                    spos = pos
+            if not len(self.markers):
+                beg = self.begin.find(text[i])
+                if beg >= 0:
+                    self.markers += [beg]
                     tl += text[i]
                     ret += tl.translate(dct)
                     tl = ""
-                    self.skip = True
                 else:
                     tl += text[i]
             else:
-                pos = self.end.find(text[i])
-                if pos == spos:
-                    ret += ntl
-                    tl += text[i]
-                    ntl = ""
-                    self.skip = False
-                else:
+                beg = self.begin.find(text[i])
+                end = self.end.find(text[i])
+                if end == self.markers[-1]:
+                    self.markers.pop()
                     ntl += text[i]
-
-        ret += ntl if self.skip else tl.translate(dct)
+                    if len(self.markers) == 0:
+                        ret += ntl.translate(self.remove)
+                        ntl = ""
+                else:
+                    if beg >= 0:
+                        self.markers += [beg]
+                    ntl += text[i]
+        ret += ntl.translate(self.remove) if len(self.markers) else tl.translate(dct)
         return ret
 
     toAlBhed = lambda self, text: self.translate(text, self.al_bhed)
