@@ -18,12 +18,16 @@ class AlBhedParser(ArgumentParser):
         ArgumentParser.__init__(self, *args, **kwargs)
         self.add_argument("-l", "--lang", choices=["spiran", "al_bhed"],
                           help="select the language to translate into", default="al_bhed")
+        self.add_argument("-d", "--delimiters", nargs=2, type=str, metavar=("start", "end"),
+                          help="set delimiters for proper nouns", default=("\"[", "\"]"))
+        self.add_argument("-r", "--remove", type=str, metavar="rm",
+                          help="characters to delete in output", default="[]")
 
         self.add_argument("file", nargs=REMAINDER)
 
 class AlBhedTrans(object):
 
-    def __init__(self, begin="\"[", end="\"]", rm = "[]"):
+    def __init__(self, begin="\"[", end="\"]", rm="[]"):
         self.begin = begin
         self.end = end
 
@@ -80,8 +84,8 @@ class AlBhedTrans(object):
     toAlBhed = lambda self, text: self.translate(text, self.al_bhed)
     toSpiran = lambda self, text: self.translate(text, self.spiran)
 
-AlBhed = AlBhedTrans()
 args = AlBhedParser().parse_args()
+AlBhed = AlBhedTrans(args.delimiters[0], args.delimiters[1], args.remove)
 
 dct = AlBhed.al_bhed if args.lang == "al_bhed" else AlBhed.spiran
 
