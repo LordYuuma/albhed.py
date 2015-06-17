@@ -10,7 +10,7 @@
 
 from argparse import ArgumentParser, REMAINDER
 from fileinput import input as fileinput
-from string import ascii_letters, ascii_lowercase
+from string import ascii_letters
 
 class AlBhedParser(ArgumentParser):
 
