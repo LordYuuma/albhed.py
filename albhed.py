@@ -8,8 +8,18 @@
 # http://www.wtfpl.net/ for more details.                            #
 ######################################################################
 
+from argparse import ArgumentParser, REMAINDER
 from fileinput import input as fileinput
 from string import ascii_letters, ascii_lowercase
+
+class AlBhedParser(ArgumentParser):
+
+    def __init__(self, *args, **kwargs):
+        ArgumentParser.__init__(self, *args, **kwargs)
+        self.add_argument("-l", "--lang", choices=["spiran", "al_bhed"],
+                          help="select the language to translate into", default="al_bhed")
+
+        self.add_argument("file", nargs=REMAINDER)
 
 class AlBhedTrans(object):
     spiran = ["e", "p", "s", "t", "i", "w", "k", "n", "u", "v", "g", "c", "l",
@@ -64,6 +74,9 @@ class AlBhedTrans(object):
 
 
 AlBhed = AlBhedTrans(["\"", "["], ["]", "\""])
+args = AlBhedParser().parse_args()
 
-for line in fileinput():
-    print(AlBhed.toAlBhed(line))
+dct = AlBhed.al_bhed if args.lang == "al_bhed" else AlBhed.spiran
+
+for line in fileinput(args.file):
+    print(AlBhed.translate(line, dct), end="")
