@@ -43,7 +43,7 @@ class AlBhedTrans(object):
             al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
                             "ß": "ç", "ç": "ß"})
         
-        al_bhed += {a.upper(): al_bhed[a].upper() for a in al_bhed.keys()}
+        al_bhed.update({a.upper(): al_bhed[a].upper() for a in al_bhed.keys()})
 
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
 
