@@ -59,6 +59,9 @@ class AlBhedTrans(object):
         self.spiran = str.maketrans(spiran)
         self.al_bhed = str.maketrans(al_bhed)
 
+        test = "".join(spiran.keys())
+        assert(test.translate(self.spiran).translate(self.al_bhed) == test.translate(self.al_bhed).translate(self.spiran))
+
         self.skip = False
 
     def translate(self, text, dct):
