@@ -10,7 +10,7 @@
 
 from argparse import ArgumentParser, REMAINDER
 from fileinput import input as fileinput
-from string import ascii_letters
+from string import ascii_lowercase
 
 class AlBhedParser(ArgumentParser):
 
@@ -36,14 +36,14 @@ class AlBhedTrans(object):
         al_bheds = ["y", "p", "l", "t", "a", "v", "k", "r", "e", "z", "g", "m", "s",
                     "h", "u", "b", "x", "n", "c", "d", "i", "j", "f", "q", "o", "w"]
 
-        al_bheds += [a.upper() for a in al_bheds]
-
-        al_bhed = {ascii_letters[i]: al_bheds[i] for i in range(len(ascii_letters))}
+        al_bhed = {ascii_lowercase[i]: al_bheds[i] for i in range(len(ascii_lowercase))}
 
         # non canon additions
         if not just_canon:
             al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
                             "ß": "ç", "ç": "ß"})
+        
+        al_bhed += {a.upper(): al_bhed[a].upper() for a in al_bhed.keys()}
 
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
 
