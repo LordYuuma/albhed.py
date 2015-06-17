@@ -44,6 +44,12 @@ class AlBhedTrans(object):
         spiran = {ascii_letters[i]: spirans[i] for i in range(len(ascii_letters))}
         al_bhed = {ascii_letters[i]: al_bheds[i] for i in range(len(ascii_letters))}
 
+        # non canon additions
+        spiran.update({"ä": "ë", "ë": "ï", "ï": "ü", "ö": "ÿ", "ü": "ö", "ÿ": "ä",
+                       "ß": "ç", "ç": "ß"})
+        al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
+                        "ß": "ç", "ç": "ß"})
+
         if(any([letter in begin or letter in end or letter in rm for letter in ascii_letters])):
             raise ValueError("Cannot remove letters from input alphabet!")
 
