@@ -6,7 +6,6 @@ Features:
 ---------
 * AlBhed to Spiran
 * Spiran to AlBhed
-
-TODO:
------
-* Add proper support for proper nouns.
+* Expanded input alphabet
+* Proper Name Handling (`-d`)
+* Removal of unwanted delimiters from output
