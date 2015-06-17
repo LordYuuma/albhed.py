@@ -22,12 +22,14 @@ class AlBhedParser(ArgumentParser):
                           help="set delimiters for proper nouns", default=("\"[", "\"]"))
         self.add_argument("-r", "--remove", type=str, metavar="rm",
                           help="characters to delete in output", default="[]")
+        self.add_argument("-t", "--traditional", "--only-canon", action="store_true",
+                          help="disable translation of non-canon symbols")
 
         self.add_argument("file", nargs=REMAINDER)
 
 class AlBhedTrans(object):
 
-    def __init__(self, begin="\"[", end="\"]", rm="[]"):
+    def __init__(self, begin="\"[", end="\"]", rm="[]", just_canon=False):
         self.begin = begin
         self.end = end
 
@@ -39,8 +41,9 @@ class AlBhedTrans(object):
         al_bhed = {ascii_letters[i]: al_bheds[i] for i in range(len(ascii_letters))}
 
         # non canon additions
-        al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
-                        "ß": "ç", "ç": "ß"})
+        if not just_canon:
+            al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
+                            "ß": "ç", "ç": "ß"})
 
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
 
@@ -88,7 +91,7 @@ class AlBhedTrans(object):
     toSpiran = lambda self, text: self.translate(text, self.spiran)
 
 args = AlBhedParser().parse_args()
-AlBhed = AlBhedTrans(args.delimiters[0], args.delimiters[1], args.remove)
+AlBhed = AlBhedTrans(args.delimiters[0], args.delimiters[1], args.remove, args.traditional)
 
 dct = AlBhed.al_bhed if args.lang == "al_bhed" else AlBhed.spiran
 
