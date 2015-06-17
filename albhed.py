@@ -23,9 +23,6 @@ class AlBhedTrans(object):
 
         self.skip = False
 
-    def split(text):
-        pass
-
     def translate(self, text, dct):
         ret = ""
         tl = ""
