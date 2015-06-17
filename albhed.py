@@ -31,26 +31,20 @@ class AlBhedTrans(object):
         self.begin = begin
         self.end = end
 
-        spirans = ["e", "p", "s", "t", "i", "w", "k", "n", "u", "v", "g", "c", "l",
-                   "r", "y", "b", "x", "h", "m", "d", "o", "f", "z", "q", "a", "j"]
-
-        spirans += [s.upper() for s in spirans]
-
         al_bheds = ["y", "p", "l", "t", "a", "v", "k", "r", "e", "z", "g", "m", "s",
                     "h", "u", "b", "x", "n", "c", "d", "i", "j", "f", "q", "o", "w"]
 
         al_bheds += [a.upper() for a in al_bheds]
 
-        spiran = {ascii_letters[i]: spirans[i] for i in range(len(ascii_letters))}
         al_bhed = {ascii_letters[i]: al_bheds[i] for i in range(len(ascii_letters))}
 
         # non canon additions
-        spiran.update({"ä": "ë", "ë": "ï", "ï": "ü", "ö": "ÿ", "ü": "ö", "ÿ": "ä",
-                       "ß": "ç", "ç": "ß"})
         al_bhed.update({"ä": "ÿ", "ë": "ä", "ï": "ë", "ö": "ü", "ü": "ï", "ÿ": "ö",
                         "ß": "ç", "ç": "ß"})
 
-        if(any([letter in begin or letter in end or letter in rm for letter in ascii_letters])):
+        spiran = {al_bhed[key]: key for key in al_bhed.keys()}
+
+        if(any([letter in begin or letter in end or letter in rm for letter in al_bhed.keys()])):
             raise ValueError("Cannot remove letters from input alphabet!")
 
         spiran.update({s: None for s in rm})
@@ -58,9 +52,6 @@ class AlBhedTrans(object):
 
         self.spiran = str.maketrans(spiran)
         self.al_bhed = str.maketrans(al_bhed)
-
-        test = "".join(spiran.keys())
-        assert(test.translate(self.spiran).translate(self.al_bhed) == test.translate(self.al_bhed).translate(self.spiran))
 
         self.skip = False
 
