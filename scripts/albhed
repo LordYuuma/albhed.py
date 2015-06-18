@@ -11,6 +11,7 @@
 from argparse import ArgumentParser, REMAINDER
 from fileinput import input as fileinput
 from albhed.translators import RomanCanonTranslator, FanonTranslator
+from albhed.utils import ProperNounDetector
 
 class AlBhedParser(ArgumentParser):
 
@@ -18,6 +19,7 @@ class AlBhedParser(ArgumentParser):
         ArgumentParser.__init__(self, *args, **kwargs)
         self.add_argument("-d", "--delimiters", nargs=2, type=str, metavar=("start", "end"),
                           help="set delimiters for proper nouns", default=("\"[", "\"]"))
+        self.add_argument("-n", "--nouns", help="detect proper nouns from file")
         self.add_argument("-r", "--remove", type=str, metavar="rm",
                           help="characters to delete in output", default="[]")
         self.add_argument("-s", "--spiran", action="store_true",
@@ -34,7 +36,12 @@ if args.traditional:
 else:
     AlBhed = FanonTranslator(args.delimiters[0], args.delimiters[1], args.remove)
 
+if args.nouns:
+    dtctr = ProperNounDetector.fromFile(args.nouns)
+
 translate = AlBhed.toSpiran if args.spiran else AlBhed.toAlBhed
 
 for line in fileinput(args.file):
+    if args.nouns:
+        line = dtctr.detect(line)
     print(translate(line), end="")
