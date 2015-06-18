@@ -20,5 +20,11 @@ class ProperNounDetector(object):
             nouns = [line.strip() for line in fin]
             self += nouns
 
+    @staticmethod
+    def fromFile(filename):
+        dtctr = ProperNounDetector()
+        dtctr.addFromFile(filename)
+        return dtctr
+
     def detect(self, text):
         return sub('|'.join(escape(noun) for noun in self.nouns), lambda noun: self.begin + noun.group(0) + self.end, text)
