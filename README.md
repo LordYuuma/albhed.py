@@ -1,6 +1,10 @@
 albhed.py
 =========
-An AlBhed Translator in Python
+An AlBhed Translator in Python (needs Python3)
+
+Installation:
+-------------
+* Run `python3 setup.py install` as root.
 
 Features:
 ---------
