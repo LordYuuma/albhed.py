@@ -11,5 +11,5 @@ Features:
 * AlBhed to Spiran
 * Spiran to AlBhed
 * Expanded input alphabet
-* Proper Name Handling (`-d`)
+* Handling of proper nouns
 * Removal of unwanted delimiters from output
