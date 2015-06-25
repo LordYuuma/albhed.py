@@ -28,9 +28,11 @@ class AlBhedTranslator(object):
         ret = ""
         tl = ""
         ntl = ""
+
         for i in range(len(text)):
             if not len(self._markers):
                 beg = self._proper_begin.find(text[i])
+
                 if beg >= 0:
                     self._markers += [beg]
                     tl += text[i]
@@ -41,6 +43,7 @@ class AlBhedTranslator(object):
             else:
                 beg = self._proper_begin.find(text[i])
                 end = self._proper_end.find(text[i])
+
                 if end == self._markers[-1]:
                     self._markers.pop()
                     ntl += text[i]
@@ -51,6 +54,7 @@ class AlBhedTranslator(object):
                     if beg >= 0:
                         self._markers += [beg]
                     ntl += text[i]
+
         ret += ntl.translate(self._remove) if len(self._markers) else tl.translate(dct)
         return ret
 
