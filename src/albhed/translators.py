@@ -70,6 +70,13 @@ class HiraganaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
         AlBhedTranslator.__init__(self, maps.canon["hiragana"], begin, end, tbr)
 
+class CanonTranslator(AlBhedTranslator):
+    def __init__(self, begin="\"[", end="\"]", tbr="[]"):
+        dct = {}
+        for c in maps.canon:
+            dct.update(maps.canon[c])
+        AlBhedTranslator.__init__(self, dct, begin, end, tbr)
+
 class FanonTranslator(AlBhedTranslator):
 
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
