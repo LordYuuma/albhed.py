@@ -1,3 +1,11 @@
+######################################################################
+# This program is free software. It comes without any warranty, to   #
+# the extent permitted by applicable law. You can redistribute it    #
+# and/or modify it under the terms of the Do What The Fuck You Want  #
+# To Public License, Version 2, as published by Sam Hocevar. See     #
+# http://www.wtfpl.net/ for more details.                            #
+######################################################################
+
 canon = {"roman" : {'a': 'y', 'b': 'p', 'c': 'l', 'd': 't', 'e': 'a', 'f': 'v',
                     'g': 'k', 'h': 'r', 'i': 'e', 'j': 'z', 'k': 'g', 'l': 'm',
                     'm': 's', 'n': 'h', 'o': 'u', 'p': 'b', 'q': 'x', 'r': 'n',
