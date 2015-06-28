@@ -22,9 +22,9 @@ class ArgumentHelper(ArgumentParser):
 
     @staticmethod
     def getTranslateWay(translator, args, default="toSpiran"):
-        if self.al_bhed and not self.spiran:
+        if args.al_bhed and not args.spiran:
             return translator.toAlBhed
-        elif self.spiran and not self.al_bhed:
+        elif args.spiran and not args.al_bhed:
             return translator.toSpiran
         else:
             return getattr(translator, default)
