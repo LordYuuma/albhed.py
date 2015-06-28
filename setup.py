@@ -11,5 +11,5 @@ setup(name='albhed.py',
       py_modules=['albhed.maps', 'albhed.translators', 'albhed.utils'],
       package_dir={'': 'src'},
 
-      scripts=['scripts/albhed']
+      scripts=['scripts/albhed', 'scripts/spiran']
       )
