@@ -6,8 +6,8 @@ class ArgumentHelper(ArgumentParser):
 
     def __init__(self, *args, **kwargs):
         ArgumentParser.__init__(self, *args, **kwargs)
-        self.add_argument("-a", "--al-bhed", nargs=2, type=str, metavar=("start", "end"),
-                          help="translate to Al Bhed", default=("\"[", "\"]"))
+        self.add_argument("-a", "--al-bhed", action="store_true",
+                          help="translate to Al Bhed")
         self.add_argument("-d", "--delimiters", nargs=2, type=str, metavar=("start", "end"),
                           help="set delimiters for proper nouns", default=("\"[", "\"]"))
         self.add_argument("-n", "--nouns", help="detect proper nouns from file")
