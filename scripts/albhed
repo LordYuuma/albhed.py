@@ -15,7 +15,7 @@ from albhed.utils import ArgumentHelper, ProperNounDetector
 args = ArgumentHelper().parse_args()
 
 if args.traditional:
-    AlBhed = RomanCanonTranslator(args.delimiters[0], args.delimiters[1], args.remove)
+    AlBhed = CanonTranslator(args.delimiters[0], args.delimiters[1], args.remove)
 else:
     AlBhed = FanonTranslator(args.delimiters[0], args.delimiters[1], args.remove)
 
