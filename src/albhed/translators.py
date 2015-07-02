@@ -78,7 +78,7 @@ class HiraganaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
         AlBhedTranslator.__init__(self, maps.canon["hiragana"], begin, end, tbr)
 
-class HiraganaTranslator(AlBhedTranslator):
+class KatakanaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
         AlBhedTranslator.__init__(self, maps.canon["katakana"], begin, end, tbr)
 
