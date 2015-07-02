@@ -9,7 +9,7 @@
 ######################################################################
 
 from fileinput import input as fileinput
-from albhed.translators import RomanCanonTranslator, FanonTranslator
+from albhed.translators import CanonTranslator, FanonTranslator
 from albhed.utils import ArgumentHelper, ProperNounDetector
 
 args = ArgumentHelper().parse_args()
