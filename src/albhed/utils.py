@@ -37,6 +37,19 @@ class ArgumentHelper(ArgumentParser):
         else:
             return getattr(translator, default)
 
+class ASCIIDowngrader(object):
+
+    def __init__(self):
+        trans = {"ä": "ae", "ë": "e", "ï": "i", "ö": "oe", "ü": "ue", "ÿ": "y",
+                 "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ý": "y",
+                 "à": "a", "è": "e", "ì": "i", "ò": "o", "ù": "u", "ỳ": "y",
+                 "â": "a", "ê": "e", "î": "i", "ô": "o", "û": "u", "ŷ": "y",
+                 "ß": "ss", "ç": "c", "Ç": "C", "ẞ": "SS"}
+        self._trans = str.maketrans(trans)
+
+    def downgrade(self, text):
+        return text.translate(self._trans)
+
 class ProperNounDetector(object):
 
     def __init__(self, nouns=[], begin="[", end="]"):
