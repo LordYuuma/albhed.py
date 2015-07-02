@@ -7,6 +7,7 @@
 ######################################################################
 
 from . import maps
+from .utils import ASCIIDowngrader
 
 class AlBhedTranslator(object):
 
@@ -33,6 +34,8 @@ class AlBhedTranslator(object):
         self._markers = []
 
     def _translate(self, text, dct):
+        text = self._prepare(text)
+
         ret = ""
         tl = ""
         ntl = ""
@@ -66,6 +69,9 @@ class AlBhedTranslator(object):
         ret += ntl.translate(self._remove) if len(self._markers) else tl.translate(dct)
         return ret
 
+    def _prepare(self, text):
+        pass
+
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
     toSpiran = lambda self, text: self._translate(text, self._spiran)
 
@@ -73,6 +79,11 @@ class RomanCanonTranslator(AlBhedTranslator):
 
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
         AlBhedTranslator.__init__(self, maps.canon["roman"], begin, end, tbr)
+
+        self._downgrader = ASCIIDowngrader()
+
+    def _prepare(self, text):
+        return self._downgrader.downgrade(text)
 
 class HiraganaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
@@ -88,6 +99,11 @@ class CanonTranslator(AlBhedTranslator):
         for c in maps.canon:
             dct.update(maps.canon[c])
         AlBhedTranslator.__init__(self, dct, begin, end, tbr)
+
+        self._downgrader = ASCIIDowngrader()
+
+    def _prepare(self, text):
+        return self._downgrader.downgrade(text)
 
 class FanonTranslator(AlBhedTranslator):
 
