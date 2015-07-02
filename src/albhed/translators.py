@@ -70,7 +70,7 @@ class AlBhedTranslator(object):
         return ret
 
     def _prepare(self, text):
-        pass
+        return text
 
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
     toSpiran = lambda self, text: self._translate(text, self._spiran)
