@@ -69,8 +69,7 @@ class AlBhedTranslator(object):
         ret += ntl.translate(self._remove) if len(self._markers) else tl.translate(dct)
         return ret
 
-    def _prepare(self, text):
-        return text
+    _prepare = lambda self, text: text
 
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
     toSpiran = lambda self, text: self._translate(text, self._spiran)
@@ -82,8 +81,7 @@ class RomanCanonTranslator(AlBhedTranslator):
 
         self._downgrader = ASCIIDowngrader()
 
-    def _prepare(self, text):
-        return self._downgrader.downgrade(text)
+    _prepare = lambda self, text: self._downgrader.downgrade(text)
 
 class HiraganaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
@@ -102,8 +100,7 @@ class CanonTranslator(AlBhedTranslator):
 
         self._downgrader = ASCIIDowngrader()
 
-    def _prepare(self, text):
-        return self._downgrader.downgrade(text)
+    _prepare = lambda self, text: self._downgrader.downgrade(text)
 
 class FanonTranslator(AlBhedTranslator):
 
