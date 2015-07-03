@@ -14,10 +14,8 @@ from albhed.utils import ArgumentHelper, ProperNounDetector
 
 args = ArgumentHelper().parse_args()
 
-if args.traditional:
-    AlBhed = CanonTranslator(args.delimiters[0], args.delimiters[1], args.remove)
-else:
-    AlBhed = FanonTranslator(args.delimiters[0], args.delimiters[1], args.remove)
+Translator = CanonTranslator if args.traditional else FanonTranslator
+AlBhed = Translator(args.delimiters[0], args.delimiters[1], args.remove)
 
 if args.nouns:
     dtctr = ProperNounDetector.fromFile(args.nouns)
