@@ -1,6 +1,6 @@
 albhed.py
 =========
-An AlBhed Translator in Python (needs Python3)
+An Al Bhed Translator in Python (needs Python3)
 
 Installation:
 -------------
@@ -8,8 +8,8 @@ Installation:
 
 Features:
 ---------
-* AlBhed to Spiran
-* Spiran to AlBhed
+* Al Bhed to Spiran
+* Spiran to Al Bhed
 * Expanded input alphabet
 * Handling of proper nouns
 * Removal of unwanted delimiters from output
