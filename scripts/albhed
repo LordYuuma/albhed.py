@@ -21,10 +21,9 @@ else:
 
 if args.nouns:
     dtctr = ProperNounDetector.fromFile(args.nouns)
+    AlBhed.addPreprocessor(dtctr.detect)
 
 translate = ArgumentHelper.getTranslateWay(AlBhed, args, "toAlBhed")
 
 for line in fileinput(args.file):
-    if args.nouns:
-        line = dtctr.detect(line)
     print(translate(line), end="")
