@@ -33,6 +33,7 @@ class AlBhedTranslator(object):
 
         self._markers = []
         self._preprocessors = []
+        self._postprocessors = []
 
     def _translate(self, text, dct):
         text = self._prepare(text)
@@ -68,16 +69,21 @@ class AlBhedTranslator(object):
                     ntl += text[i]
 
         ret += ntl.translate(self._remove) if len(self._markers) else tl.translate(dct)
-        return ret
+        return _postprocess(ret)
 
     def _prepare(self, text):
         for preprocessor in self._preprocessors:
             text = preprocessor(text)
         return text
 
+    def _postprocess(self, text):
+        for postprocessor in self._postprocessors:
+            text = postprocessor(text)
+        return text
+
     def addPreprocessor(self, preprocessor: "a callable, which transforms a string into a string"):
         """
-        Adds a preprocessor to the translator. Preprocessors are called, before the
+        Adds a preprocessor to the translator. Preprocessors are called before the
         actual translation is done. This can be used to remove special inputs not
         handled by the translator itself or generate input.
 
@@ -85,6 +91,16 @@ class AlBhedTranslator(object):
             preprocessor: the preprocessor to add
         """
         self._preprocessors.append(preprocessor)
+
+    def addPostprocessor(self, postprocessor: "a callable, which transforms a string into a string"):
+        """
+        Adds a postprocessor to the translator. Postprocessors are called after the
+        actual translation is done. This can be used to remove markup etc.
+
+        Keyword arguments:
+            postprocessor: the preprocessor to add
+        """
+        self._postprocessors.append(postprocessor)
 
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
     toSpiran = lambda self, text: self._translate(text, self._spiran)
