@@ -75,8 +75,16 @@ class AlBhedTranslator(object):
             text = preprocessor(text)
         return text
 
-    def addPreprocessor(self, processor):
-        self._preprocessors.append(processor)
+    def addPreprocessor(self, preprocessor: "a callable, which transforms a string into a string"):
+        """
+        Adds a preprocessor to the translator. Preprocessors are called, before the
+        actual translation is done. This can be used to remove special inputs not
+        handled by the translator itself or generate input.
+
+        Keyword arguments:
+            preprocessor: the preprocessor to add
+        """
+        self._preprocessors.append(preprocessor)
 
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
     toSpiran = lambda self, text: self._translate(text, self._spiran)
