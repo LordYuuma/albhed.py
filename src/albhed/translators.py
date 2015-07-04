@@ -24,8 +24,6 @@ class AlBhedTranslator(object):
             raise ValueError("Cannot remove letters from input alphabet!")
 
         rm = {r: None for r in tbr}
-        al_bhed.update(rm)
-        spiran.update(rm)
 
         self._al_bhed = str.maketrans(al_bhed)
         self._spiran  = str.maketrans(spiran)
@@ -33,7 +31,7 @@ class AlBhedTranslator(object):
 
         self._markers = []
         self._preprocessors = []
-        self._postprocessors = []
+        self._postprocessors = [lambda text: text.translate(self._remove)]
 
     def _translate(self, text, dct):
         text = self._prepare(text)
@@ -61,7 +59,7 @@ class AlBhedTranslator(object):
                     self._markers.pop()
                     ntl += text[i]
                     if len(self._markers) == 0:
-                        ret += ntl.translate(self._remove)
+                        ret += ntl
                         ntl = ""
                 else:
                     if beg >= 0:
@@ -69,7 +67,7 @@ class AlBhedTranslator(object):
                     ntl += text[i]
 
         ret += ntl.translate(self._remove) if len(self._markers) else tl.translate(dct)
-        return _postprocess(ret)
+        return self._postprocess(ret)
 
     def _prepare(self, text):
         for preprocessor in self._preprocessors:
