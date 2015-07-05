@@ -12,4 +12,4 @@ Features:
 * Spiran to Al Bhed
 * Expanded input alphabet
 * Handling of proper nouns
-* Removal of unwanted delimiters from output
+* Pre- and Postprocessors
