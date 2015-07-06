@@ -17,7 +17,13 @@ class AlBhedTranslator(object):
         self._proper_begin = proper_noun_begin
         self._proper_end   = proper_noun_end
 
+        # copy dictionary
         al_bhed = dict(al_bhed_lower)
+
+        # update with uppercase values
+        # some characters are handled in a weird way by upper() and str.translate only
+        # allows chars, not full strings
+        # we therefore exclude these characters in both translation directions
         al_bhed.update({a.upper(): al_bhed[a].upper() for a in al_bhed.keys()})
         al_bhed = {a: al_bhed[a] for a in al_bhed.keys() if len(a) == 1 and len(al_bhed[a]) == 1}
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
@@ -27,13 +33,19 @@ class AlBhedTranslator(object):
 
         rm = {r: None for r in tbr}
 
+        # build translation tables
         self._al_bhed = str.maketrans(al_bhed)
         self._spiran  = str.maketrans(spiran)
         self._remove  = str.maketrans(rm)
 
+        # list used for storing the proper noun markers
         self._markers = []
-        self._preprocessors = []
-        self._postprocessors = [lambda text: text.translate(self._remove)]
+
+        # lists used for pre- and postprocessing
+        self._preprocessors  = []
+        self._postprocessors = []
+
+        self.addPostprocessor(lambda text: text.translate(self._remove))
 
     def _translate(self, text, dct):
         text = self._prepare(text)
