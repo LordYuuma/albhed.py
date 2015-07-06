@@ -9,6 +9,8 @@
 from . import maps
 from .utils import ASCIIDowngrader
 
+from inspect import isroutine, signature
+
 class AlBhedTranslator(object):
 
     def __init__(self, al_bhed_lower, proper_noun_begin, proper_noun_end, tbr):
@@ -79,6 +81,11 @@ class AlBhedTranslator(object):
             text = postprocessor(text)
         return text
 
+    def _testprocessor(self, processor):
+        assert isroutine(processor)
+        sig = signature(processor)
+        assert len(sig.parameters) == 1
+
     def addPreprocessor(self, preprocessor: "a callable, which transforms a string into a string"):
         """
         Adds a preprocessor to the translator. Preprocessors are called before the
@@ -88,6 +95,7 @@ class AlBhedTranslator(object):
         Keyword arguments:
             preprocessor: the preprocessor to add
         """
+        self._testprocessor(preprocessor)
         self._preprocessors.append(preprocessor)
 
     def addPostprocessor(self, postprocessor: "a callable, which transforms a string into a string"):
@@ -98,6 +106,7 @@ class AlBhedTranslator(object):
         Keyword arguments:
             postprocessor: the preprocessor to add
         """
+        self._testprocessor(postprocessor)
         self._postprocessors.append(postprocessor)
 
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
