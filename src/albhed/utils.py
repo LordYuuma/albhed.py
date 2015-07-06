@@ -10,6 +10,7 @@ from argparse import ArgumentParser, REMAINDER
 from collections import Iterable
 from re import escape, sub
 
+
 class ArgumentHelper(ArgumentParser):
 
     def __init__(self, *args, **kwargs):
@@ -37,6 +38,7 @@ class ArgumentHelper(ArgumentParser):
         else:
             return getattr(translator, default)
 
+
 class ASCIIDowngrader(object):
 
     def __init__(self):
@@ -49,6 +51,7 @@ class ASCIIDowngrader(object):
 
     def downgrade(self, text):
         return text.translate(self._trans)
+
 
 class ProperNounDetector(object):
 

@@ -11,6 +11,7 @@ from .utils import ASCIIDowngrader
 
 from inspect import isroutine, signature
 
+
 class AlBhedTranslator(object):
 
     def __init__(self, al_bhed_lower, proper_noun_begin, proper_noun_end, tbr):
@@ -28,7 +29,10 @@ class AlBhedTranslator(object):
         al_bhed = {a: al_bhed[a] for a in al_bhed.keys() if len(a) == 1 and len(al_bhed[a]) == 1}
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
 
-        if(any([letter in self._proper_begin or letter in self._proper_end or letter in tbr for letter in al_bhed.keys()])):
+        if(any([letter in self._proper_begin or
+                letter in self._proper_end   or
+                letter in tbr
+                for letter in al_bhed.keys()])):
             raise ValueError("Cannot remove letters from input alphabet!")
 
         rm = {r: None for r in tbr}
