@@ -66,7 +66,7 @@ class AlBhedTranslator(object):
                         self._markers += [beg]
                     ntl += text[i]
 
-        ret += ntl.translate(self._remove) if len(self._markers) else tl.translate(dct)
+        ret += ntl if len(self._markers) else tl.translate(dct)
         return self._postprocess(ret)
 
     def _prepare(self, text):
