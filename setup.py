@@ -16,7 +16,6 @@ setup(name='albhed.py',
       license="WTFPL",
 
       packages=['albhed'],
-      py_modules=['albhed.maps', 'albhed.translators', 'albhed.utils'],
       package_dir={'': 'src'},
 
       scripts=['scripts/albhed', 'scripts/spiran']
