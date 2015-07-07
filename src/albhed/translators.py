@@ -22,11 +22,12 @@ class AlBhedTranslator(object):
         al_bhed = dict(al_bhed_lower)
 
         # update with uppercase values
-        # some characters are handled in a weird way by upper() and str.translate only
-        # allows chars, not full strings
+        # some characters are handled in a weird way by upper()
+        # and str.translate only allows chars, not full strings
         # we therefore exclude these characters in both translation directions
         al_bhed.update({a.upper(): al_bhed[a].upper() for a in al_bhed.keys()})
-        al_bhed = {a: al_bhed[a] for a in al_bhed.keys() if len(a) == 1 and len(al_bhed[a]) == 1}
+        al_bhed = {a: al_bhed[a] for a in al_bhed.keys()
+                   if len(a) == 1 and len(al_bhed[a]) == 1}
         spiran = {al_bhed[key]: key for key in al_bhed.keys()}
 
         if(any([letter in self._proper_begin or
@@ -102,11 +103,13 @@ class AlBhedTranslator(object):
         sig = signature(processor)
         assert len(sig.parameters) == 1
 
-    def addPreprocessor(self, preprocessor: "a callable, which transforms a string into a string"):
+    def addPreprocessor(self, preprocessor):
         """
-        Adds a preprocessor to the translator. Preprocessors are called before the
-        actual translation is done. This can be used to remove special inputs not
-        handled by the translator itself or generate input.
+        Adds a preprocessor to the translator.
+
+        Preprocessors are called before the actual translation is done.
+        This can be used to remove special inputs not handled
+        by the translator itself or generate input.
 
         Keyword arguments:
             preprocessor: the preprocessor to add
@@ -114,10 +117,12 @@ class AlBhedTranslator(object):
         self._testprocessor(preprocessor)
         self._preprocessors.append(preprocessor)
 
-    def addPostprocessor(self, postprocessor: "a callable, which transforms a string into a string"):
+    def addPostprocessor(self, postprocessor):
         """
-        Adds a postprocessor to the translator. Postprocessors are called after the
-        actual translation is done. This can be used to remove markup etc.
+        Adds a postprocessor to the translator.
+
+        Postprocessors are called after the actual translation is done.
+        This can be used to remove markup etc.
 
         Keyword arguments:
             postprocessor: the preprocessor to add
@@ -140,12 +145,14 @@ class RomanCanonTranslator(AlBhedTranslator):
 
 class HiraganaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
-        AlBhedTranslator.__init__(self, maps.canon["hiragana"], begin, end, tbr)
+        _map = maps.canon["hiragana"]
+        AlBhedTranslator.__init__(self, _map, begin, end, tbr)
 
 
 class KatakanaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
-        AlBhedTranslator.__init__(self, maps.canon["katakana"], begin, end, tbr)
+        _map = maps.canon["katakana"]
+        AlBhedTranslator.__init__(self, _map, begin, end, tbr)
 
 
 class CanonTranslator(AlBhedTranslator):
