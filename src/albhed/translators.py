@@ -128,6 +128,7 @@ class AlBhedTranslator(object):
     toAlBhed = lambda self, text: self._translate(text, self._al_bhed)
     toSpiran = lambda self, text: self._translate(text, self._spiran)
 
+
 class RomanCanonTranslator(AlBhedTranslator):
 
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
@@ -136,13 +137,16 @@ class RomanCanonTranslator(AlBhedTranslator):
         self._downgrader = ASCIIDowngrader()
         self.addPreprocessor(self._downgrader.downgrade)
 
+
 class HiraganaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
         AlBhedTranslator.__init__(self, maps.canon["hiragana"], begin, end, tbr)
 
+
 class KatakanaTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
         AlBhedTranslator.__init__(self, maps.canon["katakana"], begin, end, tbr)
+
 
 class CanonTranslator(AlBhedTranslator):
     def __init__(self, begin="\"[", end="\"]", tbr="[]"):
@@ -153,6 +157,7 @@ class CanonTranslator(AlBhedTranslator):
 
         self._downgrader = ASCIIDowngrader()
         self.addPreprocessor(self._downgrader.downgrade)
+
 
 class FanonTranslator(AlBhedTranslator):
 
