@@ -30,13 +30,13 @@ class ArgumentHelper(ArgumentParser):
         self.add_argument("file", nargs=REMAINDER)
 
     @staticmethod
-    def getTranslateWay(translator, args, default="toSpiran"):
+    def getTranslateWay(translator, args, default=None):
         if args.al_bhed and not args.spiran:
             return translator.toAlBhed
         elif args.spiran and not args.al_bhed:
             return translator.toSpiran
         else:
-            return getattr(translator, default)
+            return default
 
 
 class ASCIIDowngrader(object):

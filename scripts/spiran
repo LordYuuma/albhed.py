@@ -21,7 +21,7 @@ if args.nouns:
     dtctr = ProperNounDetector.fromFile(args.nouns)
     AlBhed.addPreprocessor(dtctr.detect)
 
-translate = ArgumentHelper.getTranslateWay(AlBhed, args, "toSpiran")
+translate = ArgumentHelper.getTranslateWay(AlBhed, args, AlBhed.toSpiran)
 
 for line in fileinput(args.file):
     print(translate(line), end="")
