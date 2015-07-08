@@ -73,6 +73,12 @@ class ProperNounDetector(object):
     def addFromFile(self, filename):
         with open(filename) as fin:
             nouns = [line.strip() for line in fin]
+
+            nouns = [noun for noun in nouns
+                     if not noun.startswith("#")
+                     and not noun.startswith(";")
+                     and not noun.startswith("//")]
+
             self += nouns
 
     @staticmethod
